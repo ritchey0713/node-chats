@@ -14,7 +14,6 @@ const dirPath = path.join(__dirname, '../public')
 
 app.use(express.static(dirPath))
 
-//let message = ""
 
 io.on("connection", (socket) => {
   console.log("New web socket connection")
