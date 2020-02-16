@@ -25,8 +25,6 @@ io.on("connection", (socket) => {
     io.emit("message", message)
   })
 
-
-
 })
 
 
