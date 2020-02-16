@@ -18,11 +18,11 @@ app.use(express.static(dirPath))
 io.on("connection", (socket) => {
   console.log("New web socket connection")
 
-  socket.emit("welcomeMessage", "Hello welcome to chat app!")
+  socket.emit("message", "Hello welcome to chat app!")
 
   socket.on("sendMessage", (message) => {
     
-    io.emit("sendMessage", message)
+    io.emit("message", message)
   })
 
 
