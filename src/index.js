@@ -19,7 +19,7 @@ let count = 0
 io.on("connection", (socket) => {
   console.log("New web socket connection")
 
-  socket.emit("countUpdated")
+  socket.emit("countUpdated", count)
 })
 
 
