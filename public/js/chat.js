@@ -8,8 +8,9 @@ socket.on("message", (message) => {
 
 form.addEventListener("submit", (e) => {
   e.preventDefault()
-  const message = e.target.elements.chatBox.value
-  socket.emit("sendMessage", message)
+  let message = e.target.elements.chatBox
+  socket.emit("sendMessage", message.value)
+  message.value = ""
 })
 
 
