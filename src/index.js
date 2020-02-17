@@ -21,13 +21,20 @@ io.on("connection", (socket) => {
   console.log("New web socket connection")
 
   // send to specific socket
-  socket.emit("message", generateMessage("Welcome!"))
+  // socket.emit("message", generateMessage("Welcome!"))
   // send to all but specific connection
-  socket.broadcast.emit("message", generateMessage("A new user has joined!"))
+  // socket.broadcast.emit("message", generateMessage("A new user has joined!"))
 
   socket.on("join", ({ username, room }) => {
     // server only, allows users to join a room
     socket.join(room)
+
+    socket.emit("message", generateMessage("Welcome!"))
+    
+    //io.to.emit => emits event to everyone in a room
+    // io.to(room).emit("message",  generateMessage("Welcome!"))
+    // socket.broadcast.to.emit => sends event to everyone in room other than the client who triggered
+    socket.broadcast.to(room).emit("message", generateMessage(`${username} has joined!`))
   })
 
   socket.on("sendMessage", (message, callback) => {
