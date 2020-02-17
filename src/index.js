@@ -38,12 +38,12 @@ io.on("connection", (socket) => {
     // server only, allows users to join a room
     socket.join(user.room)
 
-    socket.emit("message", generateMessage("Welcome!"))
+    socket.emit("message", generateMessage("Bot", "Welcome!"))
     
     //io.to.emit => emits event to everyone in a room
     // io.to(room).emit("message",  generateMessage("Welcome!"))
     // socket.broadcast.to.emit => sends event to everyone in room other than the client who triggered
-    socket.broadcast.to(user.room).emit("message", generateMessage(`${user.username} has joined!`))
+    socket.broadcast.to(user.room).emit("message", generateMessage("Bot", `${user.username} has joined!`))
 
     callback()
   })
@@ -58,7 +58,7 @@ io.on("connection", (socket) => {
     }
 
     // send to all connected in room
-    io.to(user.room).emit("message", generateMessage(message))
+    io.to(user.room).emit("message", generateMessage(user.username, message))
     callback()
   })
 
@@ -68,7 +68,7 @@ io.on("connection", (socket) => {
       return callback("Unable to find location")
     }
     
-    io.to(user.room).emit("locationMessage", generateMessage(`https://google.com/maps?q=${location.latitude},${location.longitude}`))
+    io.to(user.room).emit("locationMessage", generateMessage(user.username, `https://google.com/maps?q=${location.latitude},${location.longitude}`))
     callback()
   })
 
