@@ -4,6 +4,7 @@ const http = require('http')
 const socketio = require("socket.io")
 const Filter = require("bad-words")
 const { generateMessage } = require("./utils/messages")
+const { addUser, removeUser, getUser, getRoomUsers } = require("./utils/users.js")
 
 const app = express()
 // create server to pass to socketio
@@ -25,16 +26,26 @@ io.on("connection", (socket) => {
   // send to all but specific connection
   // socket.broadcast.emit("message", generateMessage("A new user has joined!"))
 
-  socket.on("join", ({ username, room }) => {
+  socket.on("join", ({ username, room }, callback) => {
+    //add user to users array
+    const { error, user } = addUser({ id: socket.id, username, room })
+
+    if(error) {
+      return callback(error)
+    }
+
+
     // server only, allows users to join a room
-    socket.join(room)
+    socket.join(user.room)
 
     socket.emit("message", generateMessage("Welcome!"))
     
     //io.to.emit => emits event to everyone in a room
     // io.to(room).emit("message",  generateMessage("Welcome!"))
     // socket.broadcast.to.emit => sends event to everyone in room other than the client who triggered
-    socket.broadcast.to(room).emit("message", generateMessage(`${username} has joined!`))
+    socket.broadcast.to(user.room).emit("message", generateMessage(`${user.username} has joined!`))
+
+    callback()
   })
 
   socket.on("sendMessage", (message, callback) => {
@@ -61,7 +72,10 @@ io.on("connection", (socket) => {
 
   // for disconnection
   socket.on('disconnect', () => {
-    io.emit("message", generateMessage("A user has left!"))
+    const user = removeUser(socket.id)
+    if(user) {
+      io.to(user.room).emit("message", generateMessage(`${user.username} has left!`)) 
+    }
   })
 
 })
