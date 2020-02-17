@@ -44,25 +44,25 @@ const removeUser = (id) => {
   }
 }
 
-addUser({
-  id: 22,
-  username: "Sally       ",
-  room: "test room"
-})
+// addUser({
+//   id: 22,
+//   username: "Sally       ",
+//   room: "test room"
+// })
 
-addUser({
-  id: 30,
-  username: "Tim",
-  room: "test room"
-})
+// addUser({
+//   id: 30,
+//   username: "Tim",
+//   room: "test room"
+// })
 
-addUser({
-  id: 12,
-  username: "Victor",
-  room: "Anon"
-})
+// addUser({
+//   id: 12,
+//   username: "Victor",
+//   room: "Anon"
+// })
 
-console.log(users)
+// console.log(users)
 
 // const res = addUser({
 //   id: 20,
@@ -78,14 +78,32 @@ console.log(users)
 // console.log(users)
 
 // get a user 
-const getUser = (id) => {
-  const user = users.find((user) => {
-    return user.id === id
-  })
-  return user
-}
+// const getUser = (id) => {
+//   const user = users.find((user) => {
+//     return user.id === id
+//   })
+//   return user
+// }
 
-const foundUser = getUser(30)
-console.log(foundUser)
+// const foundUser = getUser(30)
+//console.log(foundUser)
 
 //get users in a room 
+const getRoomUsers = (roomName) => {
+  roomName = roomName.trim().toLowerCase()
+  return users.filter((user) => {
+    return user.room === roomName
+  })
+
+}
+
+// const roomUsers = getRoomUsers("test room")
+
+// console.log("FOUND", roomUsers)
+
+module.exports = {
+  addUser,
+  removeUser,
+  getUser,
+  getRoomUsers
+}
