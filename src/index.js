@@ -23,14 +23,15 @@ io.on("connection", (socket) => {
   // send to all but specific connection
   socket.broadcast.emit("message", "A new user has joined!")
 
-  socket.on("sendMessage", (message) => {
+  socket.on("sendMessage", (message, callback) => {
     
     // send to all connected
     io.emit("message", message)
+    callback("Delivered")
   })
 
   socket.on("sendLocation", (location) => {
-    io.emit("sendLocation", `Location: ${location.longitude}, ${location.latitude}`)
+    io.emit("sendLocation", `https://google.com/maps?q=${location.latitude},${location.longitude}`)
   })
 
   // for disconnection
