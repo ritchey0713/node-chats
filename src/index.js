@@ -42,7 +42,7 @@ io.on("connection", (socket) => {
       return callback("Unable to find location")
     }
     
-    io.emit("locationMessage", `https://google.com/maps?q=${location.latitude},${location.longitude}`)
+    io.emit("locationMessage", generateMessage(`https://google.com/maps?q=${location.latitude},${location.longitude}`))
     callback()
   })
 
