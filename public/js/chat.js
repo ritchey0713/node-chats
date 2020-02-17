@@ -15,10 +15,13 @@ socket.on("sendLocation", (location) => {
 form.addEventListener("submit", (e) => {
   e.preventDefault()
   let message = e.target.elements.message.value
-  socket.emit("sendMessage", message, (message) => {
-    console.log("the message was delivered", message)
+  socket.emit("sendMessage", message, (error) => {
+    if(error) {
+      return console.log(error)
+    }
+
+    console.log("message delivered")
   })
-  message = ""
 })
 
 userLocation.addEventListener("click", (e) => {
@@ -32,7 +35,12 @@ userLocation.addEventListener("click", (e) => {
       longitude: position.coords.longitude
     }
     
-    socket.emit("sendLocation", sendLocation)
+    socket.emit("sendLocation", sendLocation, (error) => {
+      if(error) {
+        return console.log(error)
+      }
+      console.log("Location shared!")
+    })
   })
 })
 
