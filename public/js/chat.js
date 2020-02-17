@@ -1,8 +1,9 @@
 const socket = io()
 
 const form = document.querySelector("#message-form")
-
 const userLocation = document.querySelector("#location")
+const input = form.querySelector('input')
+const formButton = form.querySelector('button')
 
 socket.on("message", (message) => {
   console.log(message)
@@ -14,8 +15,14 @@ socket.on("sendLocation", (location) => {
 
 form.addEventListener("submit", (e) => {
   e.preventDefault()
+  //disable form
+  formButton.setAttribute('disabled', 'disabled')
+
   let message = e.target.elements.message.value
   socket.emit("sendMessage", message, (error) => {
+    // re enable form
+    formButton.removeAttribute("disabled")
+
     if(error) {
       return console.log(error)
     }
