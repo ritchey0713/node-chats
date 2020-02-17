@@ -78,12 +78,12 @@ const removeUser = (id) => {
 // console.log(users)
 
 // get a user 
-// const getUser = (id) => {
-//   const user = users.find((user) => {
-//     return user.id === id
-//   })
-//   return user
-// }
+const getUser = (id) => {
+  const user = users.find((user) => {
+    return user.id === id
+  })
+  return user
+}
 
 // const foundUser = getUser(30)
 //console.log(foundUser)
