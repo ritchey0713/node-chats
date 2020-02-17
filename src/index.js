@@ -25,6 +25,11 @@ io.on("connection", (socket) => {
   // send to all but specific connection
   socket.broadcast.emit("message", generateMessage("A new user has joined!"))
 
+  socket.on("join", ({ username, room }) => {
+    // server only, allows users to join a room
+    socket.join(room)
+  })
+
   socket.on("sendMessage", (message, callback) => {
     //check for profanity 
     const filter = new Filter()
@@ -45,6 +50,7 @@ io.on("connection", (socket) => {
     io.emit("locationMessage", generateMessage(`https://google.com/maps?q=${location.latitude},${location.longitude}`))
     callback()
   })
+
 
   // for disconnection
   socket.on('disconnect', () => {
