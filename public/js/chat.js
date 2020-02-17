@@ -4,13 +4,27 @@ const form = document.querySelector("#message-form")
 const userLocation = document.querySelector("#location")
 const input = form.querySelector('input')
 const formButton = form.querySelector('button')
+const messages = document.querySelector("#messages")
+
+
+//templates 
+const messageTemplate = document.querySelector('#message-template').innerHTML
+const locationTemplate = document.querySelector("#location-template").innerHTML
 
 socket.on("message", (message) => {
   console.log(message)
+
+  const html = Mustache.render(messageTemplate, {
+    message
+  })
+  messages.insertAdjacentHTML("beforeend", html)
 })
 
-socket.on("sendLocation", (location) => {
-  console.log(location)
+socket.on("locationMessage", (location) => {
+  const html = Mustache.render(locationTemplate, {
+    location
+  })
+  messages.insertAdjacentHTML("beforeend", html)
 })
 
 form.addEventListener("submit", (e) => {
