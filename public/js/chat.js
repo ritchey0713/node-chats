@@ -2,10 +2,14 @@ const socket = io()
 
 const form = document.querySelector("#message-form")
 
-const location = document.querySelector("#location")
+const userLocation = document.querySelector("#location")
 
 socket.on("message", (message) => {
   console.log(message)
+})
+
+socket.on("sendLocation", (location) => {
+  console.log(location)
 })
 
 form.addEventListener("submit", (e) => {
@@ -15,14 +19,21 @@ form.addEventListener("submit", (e) => {
   message = ""
 })
 
-location.addEventListener("click", (e) => {
+userLocation.addEventListener("click", (e) => {
   e.preventDefault()
   if(!navigator.geolocation) {
     return alert("Your browser does not support geolocation")
   }
   navigator.geolocation.getCurrentPosition((position) => {
-    console.log(position)
+    let sendLocation = {
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude
+    }
+    
+    socket.emit("sendLocation", sendLocation)
   })
 })
+
+
 
 
