@@ -22,6 +22,8 @@ form.addEventListener("submit", (e) => {
   socket.emit("sendMessage", message, (error) => {
     // re enable form
     formButton.removeAttribute("disabled")
+    input.value = ""
+    input.focus()
 
     if(error) {
       return console.log(error)
@@ -36,6 +38,7 @@ userLocation.addEventListener("click", (e) => {
   if(!navigator.geolocation) {
     return alert("Your browser does not support geolocation")
   }
+  userLocation.setAttribute("disabled", "disabled")
   navigator.geolocation.getCurrentPosition((position) => {
     let sendLocation = {
       latitude: position.coords.latitude,
@@ -46,6 +49,7 @@ userLocation.addEventListener("click", (e) => {
       if(error) {
         return console.log(error)
       }
+      userLocation.removeAttribute("disabled")
       console.log("Location shared!")
     })
   })
