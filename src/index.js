@@ -14,7 +14,7 @@ const dirPath = path.join(__dirname, '../public')
 
 app.use(express.static(dirPath))
 
-
+// use to connect only
 io.on("connection", (socket) => {
   console.log("New web socket connection")
 
@@ -27,6 +27,11 @@ io.on("connection", (socket) => {
     
     // send to all connected
     io.emit("message", message)
+  })
+
+  // for disconnection
+  socket.on('disconnect', () => {
+    io.emit("message", "A user has left!")
   })
 
 })
