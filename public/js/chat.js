@@ -15,7 +15,9 @@ socket.on("sendLocation", (location) => {
 form.addEventListener("submit", (e) => {
   e.preventDefault()
   let message = e.target.elements.message.value
-  socket.emit("sendMessage", message)
+  socket.emit("sendMessage", message, (message) => {
+    console.log("the message was delivered", message)
+  })
   message = ""
 })
 
