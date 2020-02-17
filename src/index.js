@@ -18,10 +18,14 @@ app.use(express.static(dirPath))
 io.on("connection", (socket) => {
   console.log("New web socket connection")
 
+  // send to specific socket
   socket.emit("message", "Hello welcome to chat app!")
+  // send to all but specific connection
+  socket.broadcast.emit("message", "A new user has joined!")
 
   socket.on("sendMessage", (message) => {
     
+    // send to all connected
     io.emit("message", message)
   })
 
