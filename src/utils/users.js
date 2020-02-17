@@ -1,7 +1,12 @@
 const users = []
 
 //add a user 
+const addUser = ({ id, username, room }) => {
+  // clean data 
+  username = username.trim().toLowerCase()
 
+  
+}
 
 
 //remove a user 
