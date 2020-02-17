@@ -54,9 +54,11 @@ io.on("connection", (socket) => {
     if(filter.isProfane(message)) {
       return callback("Profanity is not allowed")
     }
+    // socket.id will point to connected user
+    const user = getUser(socket.id)
 
-    // send to all connected
-    io.emit("message", generateMessage(message))
+    // send to all connected in room
+    io.to(user.room).emit("message", generateMessage(message))
     callback()
   })
 
@@ -64,8 +66,9 @@ io.on("connection", (socket) => {
     if(!location) {
       return callback("Unable to find location")
     }
+    const user = getUser(socket.id)
     
-    io.emit("locationMessage", generateMessage(`https://google.com/maps?q=${location.latitude},${location.longitude}`))
+    io.to(user.room).emit("locationMessage", generateMessage(`https://google.com/maps?q=${location.latitude},${location.longitude}`))
     callback()
   })
 
