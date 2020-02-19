@@ -16,6 +16,11 @@ const sidebarTemplate = document.querySelector("#sidebar-template").innerHTML
 //Options 
 const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true })
 
+const autoScroll = () => {
+  // new message element 
+  const newMessage = messages.lastElementChild
+}
+
 socket.on("message", (message) => {
   const html = Mustache.render(messageTemplate, {
     message: message.text,
@@ -23,6 +28,7 @@ socket.on("message", (message) => {
     createdAt: moment(message.createdAt).format("HH:mm A")
   })
   messages.insertAdjacentHTML("beforeend", html)
+  autoScroll()
 })
 
 socket.on("locationMessage", (location) => {
@@ -32,6 +38,7 @@ socket.on("locationMessage", (location) => {
     createdAt: moment(location.createdAt).format("HH:MM A")
   })
   messages.insertAdjacentHTML("beforeend", html)
+  autoScroll()
 })
 
 socket.on("roomData", ({room, users}) => {
