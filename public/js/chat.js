@@ -19,6 +19,24 @@ const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true }
 const autoScroll = () => {
   // new message element 
   const newMessage = messages.lastElementChild
+
+  // get height of new message
+  const newMessageStyles = getComputedStyle(newMessage)
+  const newMessageMargin = parseInt(newMessageStyles.marginBottom)
+  const newMessageHeight = newMessage.offsetHeight + newMessageMargin
+
+  //visible height
+  const visibleHeight = messages.offsetHeight
+
+  // height of messages container 
+  const contentHeight = messages.scrollHeight
+
+  // location of scroll bar 
+  const scrollOffset = messages.scrollTop + visibleHeight
+
+  if(contentHeight - newMessageHeight <= scrollOffset) {
+    messages.scrollTop = messages.scrollHeight
+  }
 }
 
 socket.on("message", (message) => {
